@@ -19,7 +19,7 @@ public class XMLManager {
     
     //Reads all of the people from the xml file
     public static ArrayList<Person> readPeople(){
-       ArrayList<Person> newPeople = new ArrayList<Person>();
+       ArrayList<Person> newPeople = new ArrayList<>();
        
        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
        
@@ -60,9 +60,45 @@ public class XMLManager {
        return newPeople;
     }
     
-    //Reads all of the groups from the xml file
+    //Takes in the list of people, and returns a list of groups read from the xml file
     public static ArrayList<Group> readGroups(){
-        ArrayList<Group> readGroup = new ArrayList<Group>();
+        ArrayList<Group> newGroups = new ArrayList<>();
         
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+       
+       try{     
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(path);
+            
+            //Formats the XML file, to avoid problems i.g. multiple line tags
+            doc.getDocumentElement().normalize();
+            
+            NodeList nList = doc.getElementsByTagName("group");
+            
+            for (int i=0; i < nList.getLength(); i++){
+                Node nNode = nList.item(i);
+                Node n;
+                
+                if (nNode.getNodeType() == Node.ELEMENT_NODE){
+                    Group g = new Group();
+                    Element eElement = (Element) nNode;
+                    
+                    n = eElement.getElementsByTagName("name").item(0);
+                    g.setName(n.getTextContent());
+                    
+                    NodeList nGroups = eElement.getElementsByTagName("member");
+                    for(int k=0; nGroups.item(k) != null; k++){
+                        g.addPerson(nGroups.item(k).getTextContent());
+                    }
+                    
+                    newGroups.add(g);
+                }
+            }
+            
+       }catch(Exception e){
+           System.out.println("ERROR: Can't read xml file");
+           return newGroups;
+       }
+       return newGroups;
     }
 }
