@@ -6,6 +6,7 @@
             <name>GroupTexter</name>
             <source-roots>
                 <root id="src.dir"/>
+                <root id="src.Source.dir"/>
             </source-roots>
             <test-roots>
                 <root id="test.src.dir"/>
