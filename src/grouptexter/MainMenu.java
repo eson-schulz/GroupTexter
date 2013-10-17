@@ -56,16 +56,19 @@ public class MainMenu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadXML(){
-        XMLManager.path = "//people.xml";
-        
+        XMLManager.path = "people.xml";
         
         if(new File(XMLManager.path).isFile()){
             people = XMLManager.readPeople();
             groups = XMLManager.readGroups();
         }
         else{
-            System.out.println("Can't find file");
+            createXML();
         }
+    }
+    
+    private void createXML(){
+        
     }
     
     /**
