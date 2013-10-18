@@ -11,6 +11,7 @@ public class Person {
     private String firstName;
     private String lastName;
     private String number;
+    private boolean hasBeenTexted;
 
     public String getFirstName() {
         return firstName;
@@ -55,6 +56,7 @@ public class Person {
         this.firstName = firstName;
         this.lastName = lastName;
         this.number = number;
+        this.hasBeenTexted = false;
     }
     
     public Person(){

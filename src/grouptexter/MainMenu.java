@@ -167,6 +167,11 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu1.add(jMenu3);
 
         textMenuItem.setText("Text");
+        textMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textMenuItemActionPerformed(evt);
+            }
+        });
         jMenu1.add(textMenuItem);
 
         closeMenuItem.setText("Close");
@@ -266,6 +271,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
         System.exit(0);
     }//GEN-LAST:event_closeMenuItemActionPerformed
+
+    private void textMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMenuItemActionPerformed
+        new Texter(groups, people);
+    }//GEN-LAST:event_textMenuItemActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){
