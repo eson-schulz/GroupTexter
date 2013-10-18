@@ -60,7 +60,7 @@ public class XMLManager {
     }
     
     //Takes in the list of people, and returns a list of groups read from the xml file
-    public static ArrayList<Group> readGroups(){
+    public static ArrayList<Group> readGroups(ArrayList<Person> people){
         ArrayList<Group> newGroups = new ArrayList<>();
         
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -87,7 +87,8 @@ public class XMLManager {
                     
                     NodeList nGroups = eElement.getElementsByTagName("member");
                     for(int k=0; nGroups.item(k) != null; k++){
-                        g.addPerson(nGroups.item(k).getTextContent());
+                        
+                        g.addPerson(convertPerson(people, nGroups.item(k).getTextContent()));
                     }
                     
                     newGroups.add(g);
@@ -100,4 +101,19 @@ public class XMLManager {
        }
        return newGroups;
     }
+    
+    //Converts a person from "Bob Smith" to the class which has the fname Bob, lname Smith
+    private static Person convertPerson(ArrayList<Person> people, String name){
+        String[] sepName = name.split(" ");
+        String fName = sepName[0];
+        String lName = sepName[1];
+        
+        for(Person p : people){
+            if(p.getFirstName().equals(fName) && p.getLastName().equals(lName)){
+                return p;
+            }
+        }
+        throw new Error("Not valid Person " + fName + " " + lName);
+    }
+    
 }

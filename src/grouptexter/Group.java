@@ -10,7 +10,7 @@ public class Group {
     private String name;
     
     // A list of people. In this case the person is firstName + " " + lastName
-    private ArrayList<String> people;
+    private ArrayList<Person> people;
 
     public String getName() {
         return name;
@@ -20,19 +20,19 @@ public class Group {
         this.name = name;
     }
     
-    public ArrayList<String> getPeople() {
+    public ArrayList<Person> getPeople() {
         return people;
     }
 
-    public void setPeople(ArrayList<String> people) {
+    public void setPeople(ArrayList<Person> people) {
         this.people = people;
     }
     
-    public void addPerson(String person){
+    public void addPerson(Person person){
         people.add(person);
     }
 
-    public Group(String name, ArrayList<String> people) {
+    public Group(String name, ArrayList<Person> people) {
         this.name = name;
         this.people = people;
     }

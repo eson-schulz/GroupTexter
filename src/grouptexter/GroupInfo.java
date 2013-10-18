@@ -4,6 +4,8 @@
  */
 package grouptexter;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Eson
@@ -22,7 +24,12 @@ public class GroupInfo extends javax.swing.JFrame {
 
     private void updateInfo(){
         groupNameLabel.setText(group.getName());
-        namesList.setListData(group.getPeople().toArray());
+        ArrayList<String> names = new ArrayList<>();
+        
+        for(Person p : group.getPeople()){
+            names.add(p.getFirstName() + " " + p.getLastName());
+        }
+        namesList.setListData(names.toArray());
     }
     
     /**

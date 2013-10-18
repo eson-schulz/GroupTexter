@@ -203,6 +203,9 @@ public class MainMenu extends javax.swing.JFrame {
         if(selectedRow == -1 || selectedRow > people.size() -1){
             errorLabel.setText("Select A User");
         }
+        else{
+            //new PersonTexter(people.get(WIDTH))
+        }
     }//GEN-LAST:event_textPersonButtonActionPerformed
 
     //Loads the list of people and groups from the XML
@@ -212,7 +215,7 @@ public class MainMenu extends javax.swing.JFrame {
         if(new File(XMLManager.path).isFile()){
             System.out.println("Found XML, reading.");
             people = XMLManager.readPeople();
-            groups = XMLManager.readGroups();
+            groups = XMLManager.readGroups(people);
         }
         else{
             System.out.println("Couldn't find XML, creating.");
@@ -262,8 +265,8 @@ public class MainMenu extends javax.swing.JFrame {
                  groupsTable.setValueAt(g.getName(), i, 0);
                  
                  String names = "";
-                 for(String name : g.getPeople()){
-                     names += name;
+                 for(Person person : g.getPeople()){
+                     names += person.getFirstName() + " " + person.getLastName();
                      names += ", ";
                  }
                  
