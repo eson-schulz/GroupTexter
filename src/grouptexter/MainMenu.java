@@ -6,6 +6,14 @@ package grouptexter;
 
 import java.io.File;
 import java.util.ArrayList;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -16,6 +24,7 @@ public class MainMenu extends javax.swing.JFrame {
     public MainMenu() {
         initComponents();
         loadXML();
+        updateTables();
     }
 
     /**
@@ -27,11 +36,91 @@ public class MainMenu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        peopleTable = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        groupsTable = new javax.swing.JTable();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel1.setText("People");
+
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        jLabel2.setText("Groups");
+
+        peopleTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "First Name", "Last Name", "Number"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(peopleTable);
+
+        groupsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Name", "Members"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(groupsTable);
+        groupsTable.getColumnModel().getColumn(1).setPreferredWidth(210);
 
         jMenu1.setText("File");
         jMenuBar.add(jMenu1);
@@ -45,30 +134,96 @@ public class MainMenu extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 450, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 579, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Loads the list of people and groups from the XML
     private void loadXML(){
         XMLManager.path = "people.xml";
         
         if(new File(XMLManager.path).isFile()){
+            System.out.println("Found XML, reading.");
             people = XMLManager.readPeople();
             groups = XMLManager.readGroups();
         }
         else{
+            System.out.println("Couldn't find XML, creating.");
             createXML();
+            people = new ArrayList<>();
+            groups = new ArrayList<>();
         }
     }
     
+    //If there is not already a XML created, create a new one only with base Element people
     private void createXML(){
-        
+        try{
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+            Document doc = docBuilder.newDocument();
+            Element rootElement = doc.createElement("people");
+            doc.appendChild(rootElement);
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(XMLManager.path));
+
+            transformer.transform(source, result);
+            
+        } catch (Exception e) {
+            System.out.println("ERROR: Can't create xml file");
+        }
+    }
+    
+    //Inserts the information into the tables
+    private void updateTables(){
+ 
+        if(! people.isEmpty()){
+             for(int i=0; i < people.size(); i++){
+                 Person p = people.get(i);
+                 peopleTable.setValueAt(p.getFirstName(), i, 0);
+                 peopleTable.setValueAt(p.getLastName(), i, 1);
+                 peopleTable.setValueAt(p.getNumber(), i, 2);
+             }
+        }
+        if(! groups.isEmpty()){
+            for(int i=0; i < groups.size(); i++){
+                 Group g = groups.get(i);
+                 groupsTable.setValueAt(g.getName(), i, 0);
+                 String names = "";
+                 for(String name : g.getPeople()){
+                     names += name;
+                     names += ", ";
+                 }
+                 
+                 groupsTable.setValueAt(names.substring(0, names.length() - 2), i, 1);
+             }
+        }
     }
     
     /**
@@ -109,8 +264,14 @@ public class MainMenu extends javax.swing.JFrame {
     private ArrayList<Person> people;
     private ArrayList<Group> groups;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable groupsTable;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTable peopleTable;
     // End of variables declaration//GEN-END:variables
 }
