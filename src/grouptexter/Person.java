@@ -24,6 +24,10 @@ public class Person {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
+    public String getFullName(){
+        return firstName + " " + lastName;
+    }
 
     public String getNumber() {
         return number;
@@ -34,8 +38,8 @@ public class Person {
     }
     
     //Sends a text to the person with the string as the message
-    public void text(String message) {
-        
+    public boolean text(String message) {
+        return false;
     }
 
     public Person(String firstName, String lastName, String number) {

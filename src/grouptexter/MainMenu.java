@@ -46,7 +46,7 @@ public class MainMenu extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         groupsTable = new javax.swing.JTable();
         textPersonButton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        textGroupButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -134,7 +134,12 @@ public class MainMenu extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Text Group");
+        textGroupButton.setText("Text Group");
+        textGroupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textGroupButtonActionPerformed(evt);
+            }
+        });
 
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -167,7 +172,7 @@ public class MainMenu extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(errorLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2)
+                        .addComponent(textGroupButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(textPersonButton)))
                 .addContainerGap())
@@ -190,7 +195,7 @@ public class MainMenu extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textPersonButton)
-                            .addComponent(jButton2)
+                            .addComponent(textGroupButton)
                             .addComponent(errorLabel))
                         .addContainerGap())))
         );
@@ -204,9 +209,19 @@ public class MainMenu extends javax.swing.JFrame {
             errorLabel.setText("Select A User");
         }
         else{
-            //new PersonTexter(people.get(WIDTH))
+            new SingleTexter(people.get(selectedRow));
         }
     }//GEN-LAST:event_textPersonButtonActionPerformed
+
+    private void textGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textGroupButtonActionPerformed
+        int selectedRow = groupsTable.getSelectedRow();
+        if(selectedRow == -1 || selectedRow > groups.size() -1){
+            errorLabel.setText("Select A Group");
+        }
+        else{
+            new SingleTexter(groups.get(selectedRow));
+        }
+    }//GEN-LAST:event_textGroupButtonActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){
@@ -335,7 +350,6 @@ public class MainMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel errorLabel;
     private javax.swing.JTable groupsTable;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
@@ -344,6 +358,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable peopleTable;
+    private javax.swing.JButton textGroupButton;
     private javax.swing.JButton textPersonButton;
     // End of variables declaration//GEN-END:variables
 }
