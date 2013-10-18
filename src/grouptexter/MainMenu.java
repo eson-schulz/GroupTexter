@@ -28,6 +28,9 @@ public class MainMenu extends javax.swing.JFrame {
         loadXML();
         updateTables();
         addMouseListeners();
+        
+        //Creates a new google voice
+        GoogleVoice.createVoice();
     }
 
     /**

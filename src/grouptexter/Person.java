@@ -1,5 +1,8 @@
 package grouptexter;
 
+import com.techventus.server.voice.Voice;
+import java.io.IOException;
+
 /**
  *
  * @author Eson
@@ -38,15 +41,22 @@ public class Person {
     }
     
     //Sends a text to the person with the string as the message
-    public boolean text(String message) {
-        return false;
+    public boolean text(String message){
+        try {
+            GoogleVoice.voice.sendSMS(number, message);
+        } catch (Exception ex) {
+            return false;
+        }
+        return true;
     }
-
+    
+   
     public Person(String firstName, String lastName, String number) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.number = number;
     }
+    
     public Person(){
         
     }
