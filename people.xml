@@ -11,6 +11,24 @@
 		<number>5079876543</number>
 	</person>
 
+	<person>
+		<fname>Sara</fname>
+		<lname>Smith</lname>
+		<number>5073214521</number>
+	</person>
+
+	<person>
+		<fname>Test</fname>
+		<lname>Jones</lname>
+		<number>5076126732</number>
+	</person>
+
+	<person>
+		<fname>Pizza</fname>
+		<lname>Smith</lname>
+		<number>5074950607</number>
+	</person>
+
 	<group>
 		<name>Cool Group</name>
 		<member>Bob Smith</member>
@@ -22,7 +40,6 @@
 		<member>Sara Smith</member>
 		<member>Test Jones</member>
 		<member>Pizza Smith</member>
-		<member>Jam Lambs</member>
 	</group>
 	<group>
 		<name>Lame Group</name>

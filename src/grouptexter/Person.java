@@ -32,6 +32,11 @@ public class Person {
     public void setNumber(String number) {
         this.number = number;
     }
+    
+    //Sends a text to the person with the string as the message
+    public void text(String message) {
+        
+    }
 
     public Person(String firstName, String lastName, String number) {
         this.firstName = firstName;
