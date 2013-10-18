@@ -53,9 +53,17 @@ public class MainMenu extends javax.swing.JFrame {
         errorLabel = new javax.swing.JLabel();
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        newGroupMenuItem = new javax.swing.JMenuItem();
+        newPersonMenuItem = new javax.swing.JMenuItem();
+        textMenuItem = new javax.swing.JMenuItem();
+        closeMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        groupMenuItem = new javax.swing.JMenuItem();
+        personMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Text Sender");
         setResizable(false);
 
         jLabel1.setText("People");
@@ -147,9 +155,38 @@ public class MainMenu extends javax.swing.JFrame {
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
 
         jMenu1.setText("File");
+
+        jMenu3.setText("New");
+
+        newGroupMenuItem.setText("Group");
+        jMenu3.add(newGroupMenuItem);
+
+        newPersonMenuItem.setText("Person");
+        jMenu3.add(newPersonMenuItem);
+
+        jMenu1.add(jMenu3);
+
+        textMenuItem.setText("Text");
+        jMenu1.add(textMenuItem);
+
+        closeMenuItem.setText("Close");
+        closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(closeMenuItem);
+
         jMenuBar.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        groupMenuItem.setText("Group");
+        jMenu2.add(groupMenuItem);
+
+        personMenuItem.setText("Person");
+        jMenu2.add(personMenuItem);
+
         jMenuBar.add(jMenu2);
 
         setJMenuBar(jMenuBar);
@@ -225,6 +262,10 @@ public class MainMenu extends javax.swing.JFrame {
             new SingleTexter(groups.get(selectedRow));
         }
     }//GEN-LAST:event_textGroupButtonActionPerformed
+
+    private void closeMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeMenuItemActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_closeMenuItemActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){
@@ -351,17 +392,24 @@ public class MainMenu extends javax.swing.JFrame {
     private ArrayList<Person> people;
     private ArrayList<Group> groups;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem closeMenuItem;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JMenuItem groupMenuItem;
     private javax.swing.JTable groupsTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JMenuItem newGroupMenuItem;
+    private javax.swing.JMenuItem newPersonMenuItem;
     private javax.swing.JTable peopleTable;
+    private javax.swing.JMenuItem personMenuItem;
     private javax.swing.JButton textGroupButton;
+    private javax.swing.JMenuItem textMenuItem;
     private javax.swing.JButton textPersonButton;
     // End of variables declaration//GEN-END:variables
 }
