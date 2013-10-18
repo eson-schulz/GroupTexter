@@ -4,6 +4,8 @@
  */
 package grouptexter;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
@@ -25,6 +27,7 @@ public class MainMenu extends javax.swing.JFrame {
         initComponents();
         loadXML();
         updateTables();
+        addMouseListeners();
     }
 
     /**
@@ -215,6 +218,7 @@ public class MainMenu extends javax.swing.JFrame {
             for(int i=0; i < groups.size(); i++){
                  Group g = groups.get(i);
                  groupsTable.setValueAt(g.getName(), i, 0);
+                 
                  String names = "";
                  for(String name : g.getPeople()){
                      names += name;
@@ -223,6 +227,25 @@ public class MainMenu extends javax.swing.JFrame {
                  
                  groupsTable.setValueAt(names.substring(0, names.length() - 2), i, 1);
              }
+        }
+    }
+    
+    //A mouse listener to open up a menu of members who are in the specified group
+    private void addMouseListeners(){
+        groupsTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    examineSelectedItem();
+                }
+            }
+        });
+    }
+    
+    private void examineSelectedItem(){
+        int selectedRow = groupsTable.getSelectedRow();
+        if(selectedRow != -1){
+            new GroupInfo(groups.get(selectedRow));
         }
     }
     
