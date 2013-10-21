@@ -54,9 +54,10 @@ public class MainMenu extends javax.swing.JFrame {
         jMenuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
-        newGroupMenuItem = new javax.swing.JMenuItem();
-        newPersonMenuItem = new javax.swing.JMenuItem();
         textMenuItem = new javax.swing.JMenuItem();
+        newPersonMenuItem = new javax.swing.JMenuItem();
+        newGroupMenuItem = new javax.swing.JMenuItem();
+        updateMenuItem = new javax.swing.JMenuItem();
         closeMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         groupMenuItem = new javax.swing.JMenuItem();
@@ -158,21 +159,34 @@ public class MainMenu extends javax.swing.JFrame {
 
         jMenu3.setText("New");
 
-        newGroupMenuItem.setText("Group");
-        jMenu3.add(newGroupMenuItem);
-
-        newPersonMenuItem.setText("Person");
-        jMenu3.add(newPersonMenuItem);
-
-        jMenu1.add(jMenu3);
-
         textMenuItem.setText("Text");
         textMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textMenuItemActionPerformed(evt);
             }
         });
-        jMenu1.add(textMenuItem);
+        jMenu3.add(textMenuItem);
+
+        newPersonMenuItem.setText("Person");
+        jMenu3.add(newPersonMenuItem);
+
+        newGroupMenuItem.setText("Group");
+        newGroupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newGroupMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(newGroupMenuItem);
+
+        jMenu1.add(jMenu3);
+
+        updateMenuItem.setText("Update");
+        updateMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(updateMenuItem);
 
         closeMenuItem.setText("Close");
         closeMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -275,6 +289,15 @@ public class MainMenu extends javax.swing.JFrame {
     private void textMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMenuItemActionPerformed
         new Texter(groups, people);
     }//GEN-LAST:event_textMenuItemActionPerformed
+
+    private void newGroupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGroupMenuItemActionPerformed
+        new GroupCreator(people);
+    }//GEN-LAST:event_newGroupMenuItemActionPerformed
+
+    private void updateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateMenuItemActionPerformed
+        loadXML();
+        updateTables();
+    }//GEN-LAST:event_updateMenuItemActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){
@@ -420,5 +443,6 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton textGroupButton;
     private javax.swing.JMenuItem textMenuItem;
     private javax.swing.JButton textPersonButton;
+    private javax.swing.JMenuItem updateMenuItem;
     // End of variables declaration//GEN-END:variables
 }
