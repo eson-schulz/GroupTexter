@@ -16,11 +16,26 @@ public class MultiListBox extends javax.swing.JFrame {
     
     public MultiListBox(ArrayList<Group> groups) {
         this.groups = groups;
+        
         for(Group g : groups){
             firstNotificationList.add(g.getName());
         }
         
         initComponents();
+        updateLists();
+        addMouseListeners();
+    }
+    
+    //b is used to signify the difference between this constructor and the other
+    public MultiListBox(ArrayList<Person> people, boolean b){
+        
+        for(Person p: people){
+            firstNotificationList.add(p.getFullName());
+        }
+        
+        initComponents();
+        infoButton.setVisible(false);
+                
         updateLists();
         addMouseListeners();
     }
@@ -83,18 +98,8 @@ public class MultiListBox extends javax.swing.JFrame {
         secondNotificationList = new ArrayList();
     }
     
-    public ArrayList<Group> getSecondNotificationList(){
-        ArrayList<Group> groupList = new ArrayList<>();
-        
-        for(String s : secondNotificationList){
-            for(Group g : groups){
-                if(g.getName().equals(s)){
-                    groupList.add(g);
-                    break;
-                }
-            }
-        }
-        return groupList;
+    public ArrayList<String> getSecondNotificationList(){
+        return secondNotificationList;
     }
     
     /**
@@ -118,7 +123,7 @@ public class MultiListBox extends javax.swing.JFrame {
         firstScrollPane1 = new javax.swing.JScrollPane();
         secondList = new javax.swing.JList();
         cancelButton = new javax.swing.JButton();
-        usersButton = new javax.swing.JButton();
+        infoButton = new javax.swing.JButton();
 
         setTitle("Notification Groups");
         setResizable(false);
@@ -175,10 +180,10 @@ public class MultiListBox extends javax.swing.JFrame {
             }
         });
 
-        usersButton.setText("Users");
-        usersButton.addActionListener(new java.awt.event.ActionListener() {
+        infoButton.setText("Info");
+        infoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usersButtonActionPerformed(evt);
+                infoButtonActionPerformed(evt);
             }
         });
 
@@ -206,7 +211,7 @@ public class MultiListBox extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(usersButton))
+                            .addComponent(infoButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(firstScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -247,7 +252,7 @@ public class MultiListBox extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
                     .addComponent(cancelButton)
-                    .addComponent(usersButton))
+                    .addComponent(infoButton))
                 .addContainerGap())
         );
 
@@ -289,7 +294,8 @@ public class MultiListBox extends javax.swing.JFrame {
         updateLists();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    private void usersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usersButtonActionPerformed
+    //Button to see who is in a group, not visible for the person MultiListTextBox
+    private void infoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtonActionPerformed
         if(firstList.getSelectedValue() != null){
             for(Group g : groups){
                 if(g.getName().equals((String) firstList.getSelectedValue())){
@@ -306,13 +312,14 @@ public class MultiListBox extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_usersButtonActionPerformed
+    }//GEN-LAST:event_infoButtonActionPerformed
     
-    //The arraylist for notification groups on the left side
+    //The arraylist for groups/people on the left side
     private ArrayList<String> firstNotificationList = new ArrayList<>();
     
-    //The arraylist for selected notification groups on the right side
+    //The arraylist for selected groups/people on the right side
     private ArrayList<String> secondNotificationList = new ArrayList<>();
+    
     private ArrayList<Group> groups;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAllButton;
@@ -321,12 +328,12 @@ public class MultiListBox extends javax.swing.JFrame {
     private javax.swing.JList firstList;
     private javax.swing.JScrollPane firstScrollPane;
     private javax.swing.JScrollPane firstScrollPane1;
+    private javax.swing.JButton infoButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton okButton;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JList secondList;
-    private javax.swing.JButton usersButton;
     // End of variables declaration//GEN-END:variables
 }

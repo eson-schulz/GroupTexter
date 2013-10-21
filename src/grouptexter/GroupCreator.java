@@ -15,11 +15,15 @@ public class GroupCreator extends javax.swing.JFrame {
     /**
      * Creates new form GroupCreator
      */
-    public GroupCreator(ArrayList<Person> p) {
+    public GroupCreator(ArrayList<Person> p, ArrayList<Group> g) {
         this.people = p;
+        this.groups = g;
         
         initComponents();
         this.setVisible(true);
+        
+        //Initialize the members box
+        multiListBox = new MultiListBox(p, true);
     }
 
     /**
@@ -36,12 +40,18 @@ public class GroupCreator extends javax.swing.JFrame {
         membersButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         okButton = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Name");
 
         membersButton.setText("Members");
+        membersButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                membersButtonActionPerformed(evt);
+            }
+        });
 
         cancelButton.setText("Cancel");
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -51,6 +61,13 @@ public class GroupCreator extends javax.swing.JFrame {
         });
 
         okButton.setText("OK");
+        okButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                okButtonActionPerformed(evt);
+            }
+        });
+
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -59,37 +76,41 @@ public class GroupCreator extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(okButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton)
-                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(errorLabel)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addComponent(nameTextField))
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(66, Short.MAX_VALUE)
-                .addComponent(membersButton)
-                .addGap(64, 64, 64))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 56, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(membersButton)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(okButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cancelButton)))
+                        .addGap(11, 11, 11))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(errorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(membersButton)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
-                    .addComponent(okButton))
+                    .addComponent(okButton)
+                    .addComponent(cancelButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -100,9 +121,55 @@ public class GroupCreator extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void membersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersButtonActionPerformed
+        multiListBox.setVisible(true);
+    }//GEN-LAST:event_membersButtonActionPerformed
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+        String name = nameTextField.getText();
+        
+        if(name.isEmpty()){
+            errorLabel.setText("Need a Name");
+        }
+        else if(multiListBox.getSecondNotificationList().isEmpty()){
+            errorLabel.setText("Need Members");
+        }
+        else{
+            //Check to make sure the Group name is not already in use
+            for(Group g : groups){
+                if(g.getName().trim().equals(name.trim())){
+                    errorLabel.setText("Name Already Used");
+                    return;
+                }
+            }
+            
+            Group newGroup = new Group();
+            newGroup.setName(nameTextField.getText());
+            ArrayList<String> names = multiListBox.getSecondNotificationList();
+            
+            //Convert all the People from strings to Persons
+            ArrayList<Person> selectedPeople = new ArrayList<>();
+            for(String n : names){
+               for(Person p : people){
+                   if(p.getFullName().equals(n)){
+                      selectedPeople.add(p);
+                      break;
+                  }
+                }
+            }   
+            newGroup.setPeople(selectedPeople);
+            XMLManager.writeGroup(newGroup);
+            this.dispose();
+        }
+    }//GEN-LAST:event_okButtonActionPerformed
+
     private ArrayList<Person> people;
+    private ArrayList<Group> groups;
+    
+    private MultiListBox multiListBox;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton membersButton;
     private javax.swing.JTextField nameTextField;

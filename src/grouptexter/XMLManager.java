@@ -1,12 +1,22 @@
 package grouptexter;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -100,6 +110,48 @@ public class XMLManager {
            return newGroups;
        }
        return newGroups;
+    }
+    
+    public static void writeGroup(Group group){
+        try{
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document doc = documentBuilder.parse(path);
+            
+            Node notificationGroup = doc.getElementsByTagName("people").item(0);
+            
+            Element newNG = doc.createElement("group");
+            
+            //Set the name
+            newNG.appendChild(createNewElement("name", group.getName(), doc));
+            
+            //Set the members of the group
+            for(int i = 0; i < group.getPeople().size(); i++){
+                newNG.appendChild(createNewElement("member", group.getPeople().get(i).getFullName(), doc));
+            }
+            
+            notificationGroup.appendChild(newNG);
+            
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(path));
+            transformer.transform(source, result);
+            
+        } catch (Exception ex) {
+            System.out.println("ERROR: Can't write xml file with: " + group.getName());
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    private static Element createNewElement(String name, String value, Document doc){
+        Element newElement = doc.createElement(name);
+        newElement.appendChild(doc.createTextNode(value));
+        return newElement;
     }
     
     //Converts a person from "Bob Smith" to the class which has the fname Bob, lname Smith

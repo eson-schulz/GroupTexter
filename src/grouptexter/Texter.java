@@ -115,7 +115,18 @@ public class Texter extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        ArrayList<Group> selectedGroups = groupSelection.getSecondNotificationList();
+        ArrayList<String> selectedGroupsNames = groupSelection.getSecondNotificationList();
+        
+        //Convert all the groups from strings to Groups
+        ArrayList<Group> selectedGroups = new ArrayList<>();
+        for(String s : selectedGroupsNames){
+            for(Group g : groups){
+                if(g.getName().equals(s)){
+                    selectedGroups.add(g);
+                    break;
+                }
+            }
+        }
         
         if(selectedGroups.isEmpty()){
             errorLabel.setText("Select Groups");

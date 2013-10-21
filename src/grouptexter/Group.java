@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Group {
     private String name;
     
-    // A list of people. In this case the person is firstName + " " + lastName
+    // A list of people
     private ArrayList<Person> people;
 
     public String getName() {

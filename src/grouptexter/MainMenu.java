@@ -168,6 +168,11 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu3.add(textMenuItem);
 
         newPersonMenuItem.setText("Person");
+        newPersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newPersonMenuItemActionPerformed(evt);
+            }
+        });
         jMenu3.add(newPersonMenuItem);
 
         newGroupMenuItem.setText("Group");
@@ -291,13 +296,17 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_textMenuItemActionPerformed
 
     private void newGroupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGroupMenuItemActionPerformed
-        new GroupCreator(people);
+        new GroupCreator(people, groups);
     }//GEN-LAST:event_newGroupMenuItemActionPerformed
 
     private void updateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateMenuItemActionPerformed
         loadXML();
         updateTables();
     }//GEN-LAST:event_updateMenuItemActionPerformed
+
+    private void newPersonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPersonMenuItemActionPerformed
+        new PersonCreator(people);
+    }//GEN-LAST:event_newPersonMenuItemActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){
