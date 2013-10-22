@@ -247,10 +247,9 @@ public class XMLManager {
                     
                     //Clear all of the old members
                     NodeList memberList = groupElement.getElementsByTagName("member");
-                    int memberListLength = memberList.getLength();
-                    for(int c=memberListLength -1; c >= 0; c--){
-                        //groupElement.removeChild(memberList.item(c));
-                        nameNode.removeChild(memberList.item(c));
+                    
+                    for(int c=memberList.getLength() -1; c >= 0; c--){
+                        memberList.item(c).getParentNode().removeChild(memberList.item(c));
                     }
                         
                     for(int k=0; k < newGroup.getPeople().size(); k++){

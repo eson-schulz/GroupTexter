@@ -33,17 +33,17 @@
 		<name>Cool Group</name>
 		
 		
-<member>Test Test</member><member>Jimmy Jones</member><member>Test Test</member><member>Pizza Smith</member></group>
+<member>Pizza Smith</member><member>Sara Smith</member><member>Test Jones</member></group>
 
 	<group>
 		<name>Test Group</name>
 		
-		<member>Test Jones</member>
-		<member>Jimmy Jones</member>
-		<member>Sara Smith</member>
-		<member>Pizza Smith</member>
+		
+		
+		
+		
 
-	</group>
+	<member>Jam Slam</member><member>Test Jones</member><member>Pizza Smith</member><member>Test Test</member><member>Bob Test2</member><member>Bob Smith</member></group>
 	<group>
 		<name>Lame Group</name>
 		<member>Jimmy Jones</member>

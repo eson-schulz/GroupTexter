@@ -321,13 +321,21 @@ public class MainMenu extends javax.swing.JFrame{
 
     private void personMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personMenuItemActionPerformed
         if(peopleTable.getSelectedRow() < people.size() && peopleTable.getSelectedRow() != -1){
+            errorLabel.setText("");
             new PersonCreator(people, people.get(peopleTable.getSelectedRow()));
+        }
+        else{
+            errorLabel.setText("Select A Person");
         }
     }//GEN-LAST:event_personMenuItemActionPerformed
 
     private void groupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupMenuItemActionPerformed
         if(groupsTable.getSelectedRow() < groups.size() && groupsTable.getSelectedRow() != -1){
+            errorLabel.setText("");
             new GroupCreator(people, groups, groups.get(groupsTable.getSelectedRow()));
+        }
+        else{
+            errorLabel.setText("Select A Group");
         }
     }//GEN-LAST:event_groupMenuItemActionPerformed
 

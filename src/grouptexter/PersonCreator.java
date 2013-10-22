@@ -24,6 +24,7 @@ public class PersonCreator extends javax.swing.JFrame {
         this.setVisible(true);
     }
     
+    //Person creator for editing someone
     public PersonCreator(ArrayList<Person> people, Person p){
         this.people = people;
         this.person = p;
