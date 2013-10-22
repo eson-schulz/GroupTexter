@@ -31,15 +31,18 @@
 
 	<group>
 		<name>Cool Group</name>
-		<member>Bob Smith</member>
-	</group>
+		
+		
+<member>Test Test</member><member>Jimmy Jones</member><member>Test Test</member><member>Pizza Smith</member></group>
+
 	<group>
 		<name>Test Group</name>
-		<member>Bob Smith</member>
+		
+		<member>Test Jones</member>
 		<member>Jimmy Jones</member>
 		<member>Sara Smith</member>
-		<member>Test Jones</member>
 		<member>Pizza Smith</member>
+
 	</group>
 	<group>
 		<name>Lame Group</name>

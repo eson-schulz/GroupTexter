@@ -135,6 +135,7 @@ public class GroupCreator extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
+        multiListBox.dispose();
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
@@ -152,13 +153,16 @@ public class GroupCreator extends javax.swing.JFrame {
             errorLabel.setText("Need Members");
         }
         else{
-            //Check to make sure the Group name is not already in use
-            for(Group g : groups){
-                if(g.getName().trim().equals(name.trim())){
-                    errorLabel.setText("Name Already Used");
-                    return;
+            if(! isEditing){
+                for(Group g : groups){
+                    //Check to make sure the Group name is not already in use
+                    if(g.getName().trim().equals(name.trim())){
+                        errorLabel.setText("Name Already Used");
+                        return;
+                    }
                 }
             }
+            
             
             Group newGroup = new Group();
             newGroup.setName(nameTextField.getText());
@@ -166,17 +170,45 @@ public class GroupCreator extends javax.swing.JFrame {
             
             //Convert all the People from strings to Persons
             ArrayList<Person> selectedPeople = new ArrayList<>();
+            
+            for(Person p : people){
+                System.out.println("Person: " + p.getFullName());
+            }
+            
+            for(String n : names){
+                System.out.println("Names: " + n);
+            }
+            
             for(String n : names){
                for(Person p : people){
                    if(p.getFullName().equals(n)){
                       selectedPeople.add(p);
                       break;
-                  }
+                   }
                 }
             }   
+            
             newGroup.setPeople(selectedPeople);
-            XMLManager.writeGroup(newGroup);
-            this.dispose();
+            
+            if(isEditing){
+                //Change the person in the xml file
+                boolean worked = XMLManager.editGroup(newGroup, group);
+                if(worked){
+                    this.dispose();
+                }
+                else{
+                    errorLabel.setText("Can't Write XML");
+                }
+            }
+            else{
+                boolean worked = XMLManager.writeGroup(newGroup);
+                if(worked){
+                    this.dispose();
+                }
+                else{
+                    errorLabel.setText("Can't Write XML");
+                }
+            }
         }
     }//GEN-LAST:event_okButtonActionPerformed
 

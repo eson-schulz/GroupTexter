@@ -156,13 +156,16 @@ public class PersonCreator extends javax.swing.JFrame {
             errorLabel.setText("Fill All Boxes");
         }
         else{
-            //Checking to make sure the name isn't already in use
-            for(Person p : people){
-                if(p.getFullName().equals(firstName + " " + lastName)){
-                    errorLabel.setText("Name In Use");
-                    return;
+            if(! isEditing){
+                //Checking to make sure the name isn't already in use
+                for(Person p : people){
+                    if(p.getFullName().equals(firstName + " " + lastName)){
+                        errorLabel.setText("Name In Use");
+                        return;
+                    }
                 }
             }
+            
             //Cleaning up the number, if they use various different forms of writing it
             String newNumber = number.replace("-", "");
             newNumber = newNumber.replace(" ", "");

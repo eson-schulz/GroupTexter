@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 public class MultiListBox extends javax.swing.JFrame {
     
     public MultiListBox(ArrayList<Group> groups) {
+        editing = false;
         this.groups = groups;
         
         for(Group g : groups){
@@ -25,6 +26,7 @@ public class MultiListBox extends javax.swing.JFrame {
     
     //b is used to signify the difference between this constructor and the other
     public MultiListBox(ArrayList<Person> people, boolean b){
+        editing = false;
         
         for(Person p: people){
             firstNotificationList.add(p.getFullName());
@@ -39,9 +41,12 @@ public class MultiListBox extends javax.swing.JFrame {
     
     //Constructor for editing a already created Group
     public MultiListBox(ArrayList<Person> everyPerson, ArrayList<Person> selectedPeople){
-        everyPerson.remove(selectedPeople);
+        editing = true;
+        selectedGroup = selectedPeople;
+        ArrayList<Person> notSelectedGroup = new ArrayList<>(everyPerson);
+        notSelectedGroup.removeAll(selectedPeople);
         
-        for(Person p: everyPerson){
+        for(Person p: notSelectedGroup){
             firstNotificationList.add(p.getFullName());
         }
         
@@ -110,8 +115,20 @@ public class MultiListBox extends javax.swing.JFrame {
     }
     
     public void resetList(){
-        firstNotificationList.addAll(secondNotificationList);
-        secondNotificationList = new ArrayList();
+        if(editing){
+            ArrayList<String> selectedGroupNames = new ArrayList<>();
+            for(Person p : selectedGroup){
+                selectedGroupNames.add(p.getFullName());
+            }
+            firstNotificationList.addAll(secondNotificationList);
+            firstNotificationList.removeAll(selectedGroupNames);
+            
+            secondNotificationList = selectedGroupNames;
+        }
+        else{
+            firstNotificationList.addAll(secondNotificationList);
+            secondNotificationList = new ArrayList();
+        }
     }
     
     public ArrayList<String> getSecondNotificationList(){
@@ -304,8 +321,7 @@ public class MultiListBox extends javax.swing.JFrame {
     }//GEN-LAST:event_okButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
-        firstNotificationList.addAll(secondNotificationList);
-        secondNotificationList = new ArrayList();
+        resetList();
         this.setVisible(false);
         updateLists();
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -337,6 +353,8 @@ public class MultiListBox extends javax.swing.JFrame {
     private ArrayList<String> secondNotificationList = new ArrayList<>();
     
     private ArrayList<Group> groups;
+    private boolean editing;
+    private ArrayList<Person> selectedGroup;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAllButton;
     private javax.swing.JButton addButton;

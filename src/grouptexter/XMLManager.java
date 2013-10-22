@@ -118,14 +118,15 @@ public class XMLManager {
                 
                 Node fName = personElement.getElementsByTagName("fname").item(0);
                 Node lName = personElement.getElementsByTagName("lname").item(0);
+                Node number = personElement.getElementsByTagName("number").item(0);
                 
                 //Is the fname and lname tags equal to the old person class
                 if(fName.getTextContent().equals(oldPerson.getFirstName())){
                     if(lName.getTextContent().equals(oldPerson.getLastName())){
                         //Set the old node values to the new items
-                        personElement.getElementsByTagName("fname").item(0).setTextContent(newPerson.getFirstName());
-                        personElement.getElementsByTagName("lname").item(0).setTextContent(newPerson.getLastName());
-                        personElement.getElementsByTagName("number").item(0).setTextContent(newPerson.getNumber());
+                        fName.setTextContent(newPerson.getFirstName());
+                        lName.setTextContent(newPerson.getLastName());
+                        number.setTextContent(newPerson.getNumber());
                     }
                 }
             }
@@ -222,6 +223,57 @@ public class XMLManager {
             System.out.println("ERROR: Can't write xml file with: " + group.getName());
             System.out.println(ex.getMessage());
             return false;
+        }
+        return true;
+    }
+    
+    public static boolean editGroup(Group newGroup, Group oldGroup){
+        try{
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(path);
+
+            NodeList groupNodeList = doc.getElementsByTagName("group");
+            
+            for(int i = 0; i < groupNodeList.getLength(); i++){
+                Element groupElement = (Element) groupNodeList.item(i);
+                
+                Node nameNode = groupElement.getElementsByTagName("name").item(0);
+                
+                //Is the fname and lname tags equal to the old person class
+                if(nameNode.getTextContent().equals(oldGroup.getName())){
+                        //Set the old node values to the new items
+                    nameNode.setTextContent(newGroup.getName());
+                    
+                    //Clear all of the old members
+                    NodeList memberList = groupElement.getElementsByTagName("member");
+                    int memberListLength = memberList.getLength();
+                    for(int c=memberListLength -1; c >= 0; c--){
+                        //groupElement.removeChild(memberList.item(c));
+                        nameNode.removeChild(memberList.item(c));
+                    }
+                        
+                    for(int k=0; k < newGroup.getPeople().size(); k++){
+                        groupNodeList.item(i).appendChild(createNewElement("member", newGroup.getPeople().get(k).getFullName(), doc));
+                    }
+                }
+            }
+            
+            
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(path));
+            transformer.transform(source, result);
+
+            System.out.println("Done");
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+            
         }
         return true;
     }
