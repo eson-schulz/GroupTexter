@@ -17,8 +17,24 @@ public class PersonCreator extends javax.swing.JFrame {
      */
     public PersonCreator(ArrayList<Person> people) {
         this.people = people;
+        isEditing = false;
         
         initComponents();
+        this.setTitle("New Person");
+        this.setVisible(true);
+    }
+    
+    public PersonCreator(ArrayList<Person> people, Person p){
+        this.people = people;
+        this.person = p;
+        isEditing = true;
+        
+        initComponents();
+        
+        this.firstTextField.setText(person.getFirstName());
+        this.lastTextField.setText(person.getLastName());
+        this.numberTextField.setText(person.getNumber());
+        this.setTitle("Edit Person");
         this.setVisible(true);
     }
 
@@ -51,7 +67,7 @@ public class PersonCreator extends javax.swing.JFrame {
         jLabel3.setText("Number");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        jLabel4.setText("Ex: 5073334444");
+        jLabel4.setText("Ex: 507-333-4444");
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -132,12 +148,80 @@ public class PersonCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        if(firstTextField.getText().isEmpty() || lastTextField.getText().isEmpty() || numberTextField.getText().isEmpty()){
+        String firstName = firstTextField.getText().trim();
+        String lastName = lastTextField.getText().trim();
+        String number = numberTextField.getText();
+        
+        if(firstName.isEmpty() || lastName.isEmpty() || number.isEmpty()){
             errorLabel.setText("Fill All Boxes");
+        }
+        else{
+            //Checking to make sure the name isn't already in use
+            for(Person p : people){
+                if(p.getFullName().equals(firstName + " " + lastName)){
+                    errorLabel.setText("Name In Use");
+                    return;
+                }
+            }
+            //Cleaning up the number, if they use various different forms of writing it
+            String newNumber = number.replace("-", "");
+            newNumber = newNumber.replace(" ", "");
+            if(newNumber.length() == 11){
+                if(newNumber.charAt(0) == '1'){
+                    newNumber = newNumber.substring(1, newNumber.length());
+                }
+                else{
+                    errorLabel.setText("Not Valid Num");
+                    return;
+                }
+            }
+            else if(newNumber.length() != 10){
+                errorLabel.setText("Not Valid Num");
+                return;
+            }
+            else{
+                try{
+                    Long.valueOf(newNumber);
+                }
+                catch(NumberFormatException ex){
+                    errorLabel.setText("Not Valid Num");
+                    System.out.println(newNumber);
+                    return;
+                }
+            }
+            
+            //Converted number
+            newNumber = newNumber.substring(0, 3) + "-" + newNumber.substring(3, 6) + "-" + newNumber.substring(6,10);
+           
+            Person newPerson = new Person();
+            newPerson.setFirstName(firstName);
+            newPerson.setLastName(lastName);
+            newPerson.setNumber(newNumber);
+            if(isEditing){
+                //Change the person in the xml file
+                boolean worked = XMLManager.editPerson(newPerson, person);
+                if(worked){
+                    this.dispose();
+                }
+                else{
+                    errorLabel.setText("Can't Write XML");
+                }
+            }
+            else{
+                boolean worked = XMLManager.writePerson(newPerson);
+                if(worked){
+                    this.dispose();
+                }
+                else{
+                    errorLabel.setText("Can't Write XML");
+                }
+            }
         }
     }//GEN-LAST:event_okButtonActionPerformed
 
     private ArrayList<Person> people;
+    private Person person;
+    private boolean isEditing;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel errorLabel;

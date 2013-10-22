@@ -15,15 +15,32 @@ public class GroupCreator extends javax.swing.JFrame {
     /**
      * Creates new form GroupCreator
      */
-    public GroupCreator(ArrayList<Person> p, ArrayList<Group> g) {
+    public GroupCreator(ArrayList<Person> p, ArrayList<Group> groups) {
+        isEditing = false;
         this.people = p;
-        this.groups = g;
+        this.groups = groups;
         
         initComponents();
-        this.setVisible(true);
         
         //Initialize the members box
         multiListBox = new MultiListBox(p, true);
+        this.setVisible(true);
+    }
+    
+    //Constructor for editing a already created group
+    public GroupCreator(ArrayList<Person> p, ArrayList<Group> groups, Group group){
+        isEditing = true;
+        this.people = p;
+        this.groups = groups;
+        this.group = group;
+        
+        initComponents();
+        
+        nameTextField.setText(group.getName());
+        
+        //Initialize the members box
+        multiListBox = new MultiListBox(p, group.getPeople());
+        this.setVisible(true);
     }
 
     /**
@@ -167,6 +184,10 @@ public class GroupCreator extends javax.swing.JFrame {
     private ArrayList<Group> groups;
     
     private MultiListBox multiListBox;
+    
+    private boolean isEditing;
+    
+    private Group group;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel errorLabel;

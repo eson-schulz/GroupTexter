@@ -1,33 +1,32 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<people>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><people>
 	<person>
 		<fname>Bob</fname>
 		<lname>Smith</lname>
-		<number>5071234567</number>
+		<number>507-123-4567</number>
 	</person>
 
 	<person>
 		<fname>Jimmy</fname>
 		<lname>Jones</lname>
-		<number>5079876543</number>
+		<number>507-987-6543</number>
 	</person>
 
 	<person>
 		<fname>Sara</fname>
 		<lname>Smith</lname>
-		<number>5073214521</number>
+		<number>507-321-4521</number>
 	</person>
 
 	<person>
 		<fname>Test</fname>
 		<lname>Jones</lname>
-		<number>5076126732</number>
+		<number>507-612-6732</number>
 	</person>
 
 	<person>
 		<fname>Pizza</fname>
 		<lname>Smith</lname>
-		<number>5074950607</number>
+		<number>507-495-0607</number>
 	</person>
 
 	<group>
@@ -46,4 +45,19 @@
 		<name>Lame Group</name>
 		<member>Jimmy Jones</member>
 	</group>
+<person>
+    <fname>Jam</fname>
+    <lname>Slam</lname>
+    <number>123-345-3433</number>
+  </person>
+<person>
+    <fname>Test</fname>
+    <lname>Test</lname>
+    <number>507-123-1233</number>
+  </person>
+<person>
+    <fname>Bob</fname>
+    <lname>Test2</lname>
+    <number>507-213-3375</number>
+  </person>
 </people>

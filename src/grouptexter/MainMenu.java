@@ -6,6 +6,7 @@ package grouptexter;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
@@ -21,7 +22,7 @@ import org.w3c.dom.Element;
  *
  * @author Eson
  */
-public class MainMenu extends javax.swing.JFrame {
+public class MainMenu extends javax.swing.JFrame{
 
     public MainMenu() {
         initComponents();
@@ -206,9 +207,19 @@ public class MainMenu extends javax.swing.JFrame {
         jMenu2.setText("Edit");
 
         groupMenuItem.setText("Group");
+        groupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupMenuItemActionPerformed(evt);
+            }
+        });
         jMenu2.add(groupMenuItem);
 
         personMenuItem.setText("Person");
+        personMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                personMenuItemActionPerformed(evt);
+            }
+        });
         jMenu2.add(personMenuItem);
 
         jMenuBar.add(jMenu2);
@@ -307,6 +318,18 @@ public class MainMenu extends javax.swing.JFrame {
     private void newPersonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPersonMenuItemActionPerformed
         new PersonCreator(people);
     }//GEN-LAST:event_newPersonMenuItemActionPerformed
+
+    private void personMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personMenuItemActionPerformed
+        if(peopleTable.getSelectedRow() < people.size() && peopleTable.getSelectedRow() != -1){
+            new PersonCreator(people, people.get(peopleTable.getSelectedRow()));
+        }
+    }//GEN-LAST:event_personMenuItemActionPerformed
+
+    private void groupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupMenuItemActionPerformed
+        if(groupsTable.getSelectedRow() < groups.size() && groupsTable.getSelectedRow() != -1){
+            new GroupCreator(people, groups, groups.get(groupsTable.getSelectedRow()));
+        }
+    }//GEN-LAST:event_groupMenuItemActionPerformed
 
     //Loads the list of people and groups from the XML
     private void loadXML(){

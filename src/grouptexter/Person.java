@@ -7,6 +7,7 @@ package grouptexter;
 public class Person {
     private String firstName;
     private String lastName;
+    //EX: 333-333-4444
     private String number;
 
     public String getFirstName() {
@@ -40,7 +41,7 @@ public class Person {
     //Sends a text to the person with the string as the message
     public boolean text(String message){
         try {
-            GoogleVoice.voice.sendSMS(number, message);
+            GoogleVoice.voice.sendSMS(number.replace("-", ""), message);
         } catch (Exception ex) {
             return false;
         }

@@ -11,9 +11,6 @@ import javax.swing.DefaultListModel;
  */
 public class MultiListBox extends javax.swing.JFrame {
     
-    
-    
-    
     public MultiListBox(ArrayList<Group> groups) {
         this.groups = groups;
         
@@ -31,6 +28,25 @@ public class MultiListBox extends javax.swing.JFrame {
         
         for(Person p: people){
             firstNotificationList.add(p.getFullName());
+        }
+        
+        initComponents();
+        infoButton.setVisible(false);
+                
+        updateLists();
+        addMouseListeners();
+    }
+    
+    //Constructor for editing a already created Group
+    public MultiListBox(ArrayList<Person> everyPerson, ArrayList<Person> selectedPeople){
+        everyPerson.remove(selectedPeople);
+        
+        for(Person p: everyPerson){
+            firstNotificationList.add(p.getFullName());
+        }
+        
+        for(Person p: selectedPeople){
+            secondNotificationList.add(p.getFullName());
         }
         
         initComponents();
