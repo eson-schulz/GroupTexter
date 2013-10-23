@@ -25,6 +25,30 @@ public class XMLManager {
     //Path to the xml file
     public static String path;
     
+    //Creates a XML file
+    //If there is not already a XML created, create a new one only with base Element people
+    public static void createXML(){
+        try{
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+            Document doc = docBuilder.newDocument();
+            Element rootElement = doc.createElement("people");
+            doc.appendChild(rootElement);
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(path));
+
+            transformer.transform(source, result);
+            
+        } catch (Exception e) {
+            System.out.println("ERROR: Can't create xml file");
+        }
+    }
+    
     //Reads all of the people from the xml file
     public static ArrayList<Person> readPeople(){
        ArrayList<Person> newPeople = new ArrayList<>();
@@ -130,6 +154,21 @@ public class XMLManager {
                     }
                 }
             }
+            
+            //Replace the name of the person in all instance of it in groups
+            String memberName = oldPerson.getFullName();
+            
+            NodeList groupNodeList = doc.getElementsByTagName("group");
+            for(int i = 0; i < groupNodeList.getLength(); i++){
+                Element groupElement = (Element) groupNodeList.item(i);
+                
+                NodeList memberNodeList = groupElement.getElementsByTagName("member");
+                for(int k = 0; k < memberNodeList.getLength(); k++){
+                    if(memberNodeList.item(k).getTextContent().equals(memberName)){
+                        memberNodeList.item(k).setTextContent(newPerson.getFullName());
+                    }
+                }
+            }
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -141,6 +180,7 @@ public class XMLManager {
             System.out.println("Done");
         }
         catch(Exception ex){
+            ex.printStackTrace();
             return false;
         }
         return true;

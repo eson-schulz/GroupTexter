@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><people>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<people>
 	<person>
 		<fname>Bob</fname>
 		<lname>Smith</lname>
@@ -33,7 +34,10 @@
 		<name>Cool Group</name>
 		
 		
-<member>Pizza Smith</member><member>Sara Smith</member><member>Test Jones</member></group>
+<member>Pizza Smith</member>
+    <member>Sara Smith</member>
+    <member>Test Jones</member>
+  </group>
 
 	<group>
 		<name>Test Group</name>
@@ -43,7 +47,13 @@
 		
 		
 
-	<member>Jam Slam</member><member>Test Jones</member><member>Pizza Smith</member><member>Test Test</member><member>Bob Test2</member><member>Bob Smith</member></group>
+	<member>Jam Slam</member>
+    <member>Test Jones</member>
+    <member>Pizza Smith</member>
+    <member>Test Test</member>
+    <member>Bob Test2</member>
+    <member>Bob Smith</member>
+  </group>
 	<group>
 		<name>Lame Group</name>
 		<member>Jimmy Jones</member>
@@ -62,5 +72,26 @@
     <fname>Bob</fname>
     <lname>Test2</lname>
     <number>507-213-3375</number>
+  </person>
+<person>
+    <fname>Text</fname>
+    <lname>Free</lname>
+    <number>507-291-9687</number>
+  </person>
+<person>
+    <fname>Me</fname>
+    <lname>Test</lname>
+    <number>507-213-3376</number>
+  </person>
+<group>
+    <name>Texting Group2</name>
+    
+    
+  <member>Text Free</member>
+  </group>
+<person>
+    <fname>Cat</fname>
+    <lname>Dog</lname>
+    <number>123-333-4444</number>
   </person>
 </people>

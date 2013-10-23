@@ -6,17 +6,10 @@ package grouptexter;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  *
@@ -28,7 +21,7 @@ public class MainMenu extends javax.swing.JFrame{
         initComponents();
         loadXML();
         updateTables();
-        addMouseListeners();
+        addListeners();
         
         //Creates a new google voice
         GoogleVoice.createVoice();
@@ -56,8 +49,8 @@ public class MainMenu extends javax.swing.JFrame{
         jMenu1 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         textMenuItem = new javax.swing.JMenuItem();
-        newPersonMenuItem = new javax.swing.JMenuItem();
         newGroupMenuItem = new javax.swing.JMenuItem();
+        newPersonMenuItem = new javax.swing.JMenuItem();
         updateMenuItem = new javax.swing.JMenuItem();
         closeMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -168,14 +161,6 @@ public class MainMenu extends javax.swing.JFrame{
         });
         jMenu3.add(textMenuItem);
 
-        newPersonMenuItem.setText("Person");
-        newPersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                newPersonMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu3.add(newPersonMenuItem);
-
         newGroupMenuItem.setText("Group");
         newGroupMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,6 +168,14 @@ public class MainMenu extends javax.swing.JFrame{
             }
         });
         jMenu3.add(newGroupMenuItem);
+
+        newPersonMenuItem.setText("Person");
+        newPersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newPersonMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu3.add(newPersonMenuItem);
 
         jMenu1.add(jMenu3);
 
@@ -266,7 +259,7 @@ public class MainMenu extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 39, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(textPersonButton)
@@ -284,6 +277,7 @@ public class MainMenu extends javax.swing.JFrame{
             errorLabel.setText("Select A User");
         }
         else{
+            errorLabel.setText("");
             new SingleTexter(people.get(selectedRow));
         }
     }//GEN-LAST:event_textPersonButtonActionPerformed
@@ -294,6 +288,7 @@ public class MainMenu extends javax.swing.JFrame{
             errorLabel.setText("Select A Group");
         }
         else{
+            errorLabel.setText("");
             new SingleTexter(groups.get(selectedRow));
         }
     }//GEN-LAST:event_textGroupButtonActionPerformed
@@ -350,32 +345,9 @@ public class MainMenu extends javax.swing.JFrame{
         }
         else{
             System.out.println("Couldn't find XML, creating.");
-            createXML();
+            XMLManager.createXML();
             people = new ArrayList<>();
             groups = new ArrayList<>();
-        }
-    }
-    
-    //If there is not already a XML created, create a new one only with base Element people
-    private void createXML(){
-        try{
-            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-
-            Document doc = docBuilder.newDocument();
-            Element rootElement = doc.createElement("people");
-            doc.appendChild(rootElement);
-
-            // write the content into xml file
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(doc);
-            StreamResult result = new StreamResult(new File(XMLManager.path));
-
-            transformer.transform(source, result);
-            
-        } catch (Exception e) {
-            System.out.println("ERROR: Can't create xml file");
         }
     }
     
@@ -407,7 +379,7 @@ public class MainMenu extends javax.swing.JFrame{
     }
     
     //A mouse listener to open up a menu of members who are in the specified group
-    private void addMouseListeners(){
+    private void addListeners(){
         groupsTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
@@ -416,6 +388,16 @@ public class MainMenu extends javax.swing.JFrame{
                 }
             }
         });
+        
+        //Add a window listener to update when this comes back into focus
+        this.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                loadXML();
+                updateTables();
+                System.out.println("Focus!");
+    }
+});
     }
     
     private void examineSelectedItem(){
