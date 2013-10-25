@@ -25,6 +25,7 @@ public class GroupCreator extends javax.swing.JFrame {
         //Initialize the members box
         multiListBox = new MultiListBox(p, true);
         this.setVisible(true);
+        this.setTitle("New Group");
     }
     
     //Constructor for editing a already created group
@@ -41,6 +42,7 @@ public class GroupCreator extends javax.swing.JFrame {
         //Initialize the members box
         multiListBox = new MultiListBox(p, group.getPeople());
         this.setVisible(true);
+        this.setTitle("Edit Group");
     }
 
     /**
@@ -59,7 +61,9 @@ public class GroupCreator extends javax.swing.JFrame {
         okButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Group Editor");
+        setResizable(false);
 
         jLabel1.setText("Name");
 
@@ -140,6 +144,7 @@ public class GroupCreator extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void membersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membersButtonActionPerformed
+        multiListBox.setBounds(this.getX() + 50, this.getY() + 50, multiListBox.getWidth(), multiListBox.getHeight());
         multiListBox.setVisible(true);
     }//GEN-LAST:event_membersButtonActionPerformed
 

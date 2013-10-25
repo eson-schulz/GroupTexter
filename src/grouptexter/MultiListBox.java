@@ -158,7 +158,7 @@ public class MultiListBox extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         infoButton = new javax.swing.JButton();
 
-        setTitle("Notification Groups");
+        setTitle("Selection");
         setResizable(false);
 
         firstList.setVisibleRowCount(9);
@@ -331,7 +331,8 @@ public class MultiListBox extends javax.swing.JFrame {
         if(firstList.getSelectedValue() != null){
             for(Group g : groups){
                 if(g.getName().equals((String) firstList.getSelectedValue())){
-                    new GroupInfo(g);
+                    GroupInfo info = new GroupInfo(g);
+                    info.setBounds(this.getX() + 50, this.getY() + 50, info.getWidth(), info.getHeight());
                     return;
                 }
             }
@@ -339,7 +340,8 @@ public class MultiListBox extends javax.swing.JFrame {
         else if(secondList.getSelectedValue() != null){
             for(Group g : groups){
                 if(g.getName().equals((String) secondList.getSelectedValue())){
-                    new GroupInfo(g);
+                    GroupInfo info = new GroupInfo(g);
+                    info.setBounds(this.getX() + 50, this.getY() + 50, info.getWidth(), info.getHeight());
                     return;
                 }
             }

@@ -52,17 +52,18 @@ public class MainMenu extends javax.swing.JFrame{
         textMenuItem = new javax.swing.JMenuItem();
         newGroupMenuItem = new javax.swing.JMenuItem();
         newPersonMenuItem = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        deleteGroupMenuItem = new javax.swing.JMenuItem();
-        deletePersonMenuItem = new javax.swing.JMenuItem();
         updateMenuItem = new javax.swing.JMenuItem();
         closeMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
+        deleteGroupMenuItem = new javax.swing.JMenuItem();
+        deletePersonMenuItem = new javax.swing.JMenuItem();
         groupMenuItem = new javax.swing.JMenuItem();
         personMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Text Sender");
+        setBounds(new java.awt.Rectangle(100, 50, 0, 0));
         setResizable(false);
 
         jLabel1.setText("People");
@@ -183,26 +184,6 @@ public class MainMenu extends javax.swing.JFrame{
 
         jMenu1.add(jMenu3);
 
-        jMenu4.setText("Delete");
-
-        deleteGroupMenuItem.setText("Group");
-        deleteGroupMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteGroupMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu4.add(deleteGroupMenuItem);
-
-        deletePersonMenuItem.setText("Person");
-        deletePersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deletePersonMenuItemActionPerformed(evt);
-            }
-        });
-        jMenu4.add(deletePersonMenuItem);
-
-        jMenu1.add(jMenu4);
-
         updateMenuItem.setText("Update");
         updateMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -222,6 +203,26 @@ public class MainMenu extends javax.swing.JFrame{
         jMenuBar.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        jMenu4.setText("Delete");
+
+        deleteGroupMenuItem.setText("Group");
+        deleteGroupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteGroupMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(deleteGroupMenuItem);
+
+        deletePersonMenuItem.setText("Person");
+        deletePersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletePersonMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(deletePersonMenuItem);
+
+        jMenu2.add(jMenu4);
 
         groupMenuItem.setText("Group");
         groupMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -302,7 +303,8 @@ public class MainMenu extends javax.swing.JFrame{
         }
         else{
             errorLabel.setText("");
-            new SingleTexter(people.get(selectedRow));
+            SingleTexter texter = new SingleTexter(people.get(selectedRow));
+            texter.setBounds(this.getX() + 50, this.getY() + 50, texter.getWidth(), texter.getHeight());
         }
     }//GEN-LAST:event_textPersonButtonActionPerformed
 
@@ -313,7 +315,8 @@ public class MainMenu extends javax.swing.JFrame{
         }
         else{
             errorLabel.setText("");
-            new SingleTexter(groups.get(selectedRow));
+            SingleTexter texter = new SingleTexter(groups.get(selectedRow));
+            texter.setBounds(this.getX() + 50, this.getY() + 50, texter.getWidth(), texter.getHeight());
         }
     }//GEN-LAST:event_textGroupButtonActionPerformed
 
@@ -322,11 +325,13 @@ public class MainMenu extends javax.swing.JFrame{
     }//GEN-LAST:event_closeMenuItemActionPerformed
 
     private void textMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textMenuItemActionPerformed
-        new Texter(groups, people);
+        Texter texter = new Texter(groups, people);
+        texter.setBounds(this.getX() + 50, this.getY() + 50, texter.getWidth(), texter.getHeight());
     }//GEN-LAST:event_textMenuItemActionPerformed
 
     private void newGroupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newGroupMenuItemActionPerformed
-        new GroupCreator(people, groups);
+        GroupCreator creator = new GroupCreator(people, groups);
+        creator.setBounds(this.getX() + 50, this.getY() + 50, creator.getWidth(), creator.getHeight());
     }//GEN-LAST:event_newGroupMenuItemActionPerformed
 
     private void updateMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateMenuItemActionPerformed
@@ -335,13 +340,15 @@ public class MainMenu extends javax.swing.JFrame{
     }//GEN-LAST:event_updateMenuItemActionPerformed
 
     private void newPersonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newPersonMenuItemActionPerformed
-        new PersonCreator(people);
+        PersonCreator creator = new PersonCreator(people);
+        creator.setBounds(this.getX() + 50, this.getY() + 50, creator.getWidth(), creator.getHeight());
     }//GEN-LAST:event_newPersonMenuItemActionPerformed
 
     private void personMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_personMenuItemActionPerformed
         if(peopleTable.getSelectedRow() < people.size() && peopleTable.getSelectedRow() != -1){
             errorLabel.setText("");
-            new PersonCreator(people, people.get(peopleTable.getSelectedRow()));
+            PersonCreator creator = new PersonCreator(people, people.get(peopleTable.getSelectedRow()));
+            creator.setBounds(this.getX() + 50, this.getY() + 50, creator.getWidth(), creator.getHeight());
         }
         else{
             errorLabel.setText("Select A Person");
@@ -351,7 +358,8 @@ public class MainMenu extends javax.swing.JFrame{
     private void groupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupMenuItemActionPerformed
         if(groupsTable.getSelectedRow() < groups.size() && groupsTable.getSelectedRow() != -1){
             errorLabel.setText("");
-            new GroupCreator(people, groups, groups.get(groupsTable.getSelectedRow()));
+            GroupCreator creator = new GroupCreator(people, groups, groups.get(groupsTable.getSelectedRow()));
+            creator.setBounds(this.getX() + 50, this.getY() + 50, creator.getWidth(), creator.getHeight());
         }
         else{
             errorLabel.setText("Select A Group");
@@ -365,7 +373,8 @@ public class MainMenu extends javax.swing.JFrame{
         }
         else{
             errorLabel.setText("");
-            new DeleteNotification(groups.get(selectedRow));
+            DeleteNotification deletor = new DeleteNotification(groups.get(selectedRow));
+            deletor.setBounds(this.getX() + 50, this.getY() + 50, deletor.getWidth(), deletor.getHeight());
         }
     }//GEN-LAST:event_deleteGroupMenuItemActionPerformed
 
@@ -376,7 +385,8 @@ public class MainMenu extends javax.swing.JFrame{
         }
         else{
             errorLabel.setText("");
-            new DeleteNotification(people.get(selectedRow));
+            DeleteNotification deletor = new DeleteNotification(people.get(selectedRow));
+            deletor.setBounds(this.getX() + 50, this.getY() + 50, deletor.getWidth(), deletor.getHeight());
         }
     }//GEN-LAST:event_deletePersonMenuItemActionPerformed
 
@@ -401,6 +411,9 @@ public class MainMenu extends javax.swing.JFrame{
     private void updateTables(){
         DefaultTableModel dm = (DefaultTableModel)peopleTable.getModel();
         dm.setRowCount(people.size());
+        
+        DefaultTableModel dm2 = (DefaultTableModel)groupsTable.getModel();
+        dm2.setRowCount(groups.size());
         
         if(! people.isEmpty()){
              for(int i=0; i < people.size(); i++){
@@ -452,7 +465,8 @@ public class MainMenu extends javax.swing.JFrame{
         int selectedRow = groupsTable.getSelectedRow();
         
         if(selectedRow != -1 && selectedRow < groups.size()){
-            new GroupInfo(groups.get(selectedRow));
+            GroupInfo info = new GroupInfo(groups.get(selectedRow));
+            info.setBounds(this.getX() + 50, this.getY() + 50, info.getWidth(), info.getHeight());
         }
     }
     

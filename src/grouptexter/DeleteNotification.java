@@ -52,6 +52,7 @@ public class DeleteNotification extends javax.swing.JFrame {
         errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Delete");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Are you sure you want to");
@@ -74,7 +75,7 @@ public class DeleteNotification extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel3.setText("delete:");
+        jLabel3.setText("delete");
 
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
 
