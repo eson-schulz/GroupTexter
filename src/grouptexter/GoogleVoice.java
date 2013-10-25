@@ -9,11 +9,13 @@ import java.io.IOException;
 public class GoogleVoice {
     public static Voice voice;
     
-    public static void createVoice(){
+    public static boolean createVoice(){
         try {
             voice = new Voice("username", "password");
+            return true;
         } catch (IOException ex) {
             System.out.println("ERROR: Google Voice");
+            return false;
         }
     }
 }

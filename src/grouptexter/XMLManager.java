@@ -149,7 +149,20 @@ public class XMLManager {
                 }
             }
             
+            //Delete the name of the person in all instance of it in groups
+            String fullName = p.getFullName();
             
+            NodeList groupNodeList = doc.getElementsByTagName("group");
+            for(int i = 0; i < groupNodeList.getLength(); i++){
+                Element groupElement = (Element) groupNodeList.item(i);
+                
+                NodeList memberNodeList = groupElement.getElementsByTagName("member");
+                for(int k = 0; k < memberNodeList.getLength(); k++){
+                    if(memberNodeList.item(k).getTextContent().equals(fullName)){
+                        memberNodeList.item(k).getParentNode().removeChild(memberNodeList.item(k));
+                    }
+                }
+            }
 
             // write the content into xml file
             TransformerFactory transformerFactory = TransformerFactory.newInstance();

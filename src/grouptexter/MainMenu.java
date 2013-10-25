@@ -23,9 +23,11 @@ public class MainMenu extends javax.swing.JFrame{
         loadXML();
         updateTables();
         addListeners();
-        
         //Creates a new google voice
-        GoogleVoice.createVoice();
+        boolean voiceWorked = GoogleVoice.createVoice();
+        if(! voiceWorked){
+            errorLabel.setText("Can't Connect To The Internet");
+        }
     }
 
     /**
@@ -433,8 +435,12 @@ public class MainMenu extends javax.swing.JFrame{
                      names += person.getFirstName() + " " + person.getLastName();
                      names += ", ";
                  }
-                 
-                 groupsTable.setValueAt(names.substring(0, names.length() - 2), i, 1);
+                 if(names.isEmpty()){
+                     groupsTable.setValueAt("No Members", i, 1);
+                 }
+                 else{
+                    groupsTable.setValueAt(names.substring(0, names.length() - 2), i, 1);
+                 }
              }
         }
     }
@@ -456,7 +462,6 @@ public class MainMenu extends javax.swing.JFrame{
             public void windowGainedFocus(WindowEvent e) {
                 loadXML();
                 updateTables();
-                System.out.println("Focus!");
     }
 });
     }
