@@ -129,6 +129,45 @@ public class XMLManager {
         return true;
     }
     
+    public static boolean deletePerson(Person p){
+        try{
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(path);
+
+            NodeList personNodeList = doc.getElementsByTagName("person");
+            
+            for(int i = 0; i < personNodeList.getLength(); i++){
+                Element personElement = (Element) personNodeList.item(i);
+                
+                String firstName = personElement.getElementsByTagName("fname").item(0).getTextContent();
+                String lastName = personElement.getElementsByTagName("lname").item(0).getTextContent();
+                
+                //Is the fname and lname tags equal to the old person class
+                if(firstName.equals(p.getFirstName()) && lastName.equals(p.getLastName())){
+                    personElement.getParentNode().removeChild(personElement);
+                }
+            }
+            
+            
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(path));
+            transformer.transform(source, result);
+
+            System.out.println("Done");
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+            
+        }
+        return true;
+    }
+    
     public static boolean editPerson(Person newPerson, Person oldPerson){
         try{
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -263,6 +302,44 @@ public class XMLManager {
             System.out.println("ERROR: Can't write xml file with: " + group.getName());
             System.out.println(ex.getMessage());
             return false;
+        }
+        return true;
+    }
+    
+    public static boolean deleteGroup(Group g){
+        try{
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(path);
+
+            NodeList groupNodeList = doc.getElementsByTagName("group");
+            
+            for(int i = 0; i < groupNodeList.getLength(); i++){
+                Element groupElement = (Element) groupNodeList.item(i);
+                
+                Node nameNode = groupElement.getElementsByTagName("name").item(0);
+                
+                //Is the fname and lname tags equal to the old person class
+                if(nameNode.getTextContent().equals(g.getName())){
+                    groupElement.getParentNode().removeChild(groupElement);
+                }
+            }
+            
+            
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(path));
+            transformer.transform(source, result);
+
+            System.out.println("Done");
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+            return false;
+            
         }
         return true;
     }

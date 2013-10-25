@@ -4,6 +4,7 @@
  */
 package grouptexter;
 
+import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -51,6 +52,9 @@ public class MainMenu extends javax.swing.JFrame{
         textMenuItem = new javax.swing.JMenuItem();
         newGroupMenuItem = new javax.swing.JMenuItem();
         newPersonMenuItem = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        deleteGroupMenuItem = new javax.swing.JMenuItem();
+        deletePersonMenuItem = new javax.swing.JMenuItem();
         updateMenuItem = new javax.swing.JMenuItem();
         closeMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
@@ -178,6 +182,26 @@ public class MainMenu extends javax.swing.JFrame{
         jMenu3.add(newPersonMenuItem);
 
         jMenu1.add(jMenu3);
+
+        jMenu4.setText("Delete");
+
+        deleteGroupMenuItem.setText("Group");
+        deleteGroupMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteGroupMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(deleteGroupMenuItem);
+
+        deletePersonMenuItem.setText("Person");
+        deletePersonMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deletePersonMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu4.add(deletePersonMenuItem);
+
+        jMenu1.add(jMenu4);
 
         updateMenuItem.setText("Update");
         updateMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -334,6 +358,28 @@ public class MainMenu extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_groupMenuItemActionPerformed
 
+    private void deleteGroupMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteGroupMenuItemActionPerformed
+        int selectedRow = groupsTable.getSelectedRow();
+        if(selectedRow == -1 || selectedRow > groups.size() -1){
+            errorLabel.setText("Select A Group");
+        }
+        else{
+            errorLabel.setText("");
+            new DeleteNotification(groups.get(selectedRow));
+        }
+    }//GEN-LAST:event_deleteGroupMenuItemActionPerformed
+
+    private void deletePersonMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletePersonMenuItemActionPerformed
+        int selectedRow = peopleTable.getSelectedRow();
+        if(selectedRow == -1 || selectedRow > people.size() -1){
+            errorLabel.setText("Select A Group");
+        }
+        else{
+            errorLabel.setText("");
+            new DeleteNotification(people.get(selectedRow));
+        }
+    }//GEN-LAST:event_deletePersonMenuItemActionPerformed
+
     //Loads the list of people and groups from the XML
     private void loadXML(){
         XMLManager.path = "people.xml";
@@ -353,7 +399,9 @@ public class MainMenu extends javax.swing.JFrame{
     
     //Inserts the information into the tables
     private void updateTables(){
- 
+        DefaultTableModel dm = (DefaultTableModel)peopleTable.getModel();
+        dm.setRowCount(people.size());
+        
         if(! people.isEmpty()){
              for(int i=0; i < people.size(); i++){
                  Person p = people.get(i);
@@ -447,6 +495,8 @@ public class MainMenu extends javax.swing.JFrame{
     private ArrayList<Group> groups;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem closeMenuItem;
+    private javax.swing.JMenuItem deleteGroupMenuItem;
+    private javax.swing.JMenuItem deletePersonMenuItem;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JMenuItem groupMenuItem;
     private javax.swing.JTable groupsTable;
@@ -455,6 +505,7 @@ public class MainMenu extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
