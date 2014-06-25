@@ -2,8 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package grouptexter;
+package com.eschulz.pages;
 
+import com.eschulz.data.GoogleVoice;
+import com.eschulz.data.Group;
+import com.eschulz.data.Person;
+import com.eschulz.data.XMLManager;
+import com.eschulz.data.SingleTexter;
+import com.eschulz.pages.Texter;
+import com.eschulz.pages.PersonCreator;
+import com.eschulz.pages.GroupCreator;
+import com.eschulz.pages.DeleteNotification;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -138,7 +147,9 @@ public class MainMenu extends javax.swing.JFrame{
             }
         });
         jScrollPane3.setViewportView(groupsTable);
-        groupsTable.getColumnModel().getColumn(1).setPreferredWidth(210);
+        if (groupsTable.getColumnModel().getColumnCount() > 0) {
+            groupsTable.getColumnModel().getColumn(1).setPreferredWidth(210);
+        }
 
         textPersonButton.setText("Text Person");
         textPersonButton.addActionListener(new java.awt.event.ActionListener() {

@@ -2,35 +2,41 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package grouptexter;
+package com.eschulz.pages;
+
+import com.eschulz.data.Group;
+import com.eschulz.data.Person;
+import com.eschulz.data.XMLManager;
 
 /**
  *
  * @author Eson
  */
-public class SingleTexter extends javax.swing.JFrame {
+public class DeleteNotification extends javax.swing.JFrame {
 
     /**
-     * Creates new form SingleTexter
+     * Creates new form DeleteNotification
      */
-    public SingleTexter(Person p) {
-        person = p;
-        sendingToPerson = true;
+    public DeleteNotification(Group g) {
+        group = g;
+        isDeletingGroup = true;
+        
         initComponents();
         
-        nameLabel.setText("Sending to: " + p.getFullName());
-        
-        this.setVisible(true);
+        nameText.setText(g.getName() + "?");
+        setVisible(true);
     }
     
-    public SingleTexter(Group g) {
-        group = g;
-        sendingToPerson = false;
+    public DeleteNotification(Person p) {
+        person = p;
+        isDeletingGroup = false;
+        
         initComponents();
         
-        nameLabel.setText("Sending to: " + g.getName());
+        nameText.setText(p.getFullName() + "?");
         
-        this.setVisible(true);
+        
+        setVisible(true);
     }
 
     /**
@@ -42,16 +48,22 @@ public class SingleTexter extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        nameLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        nameText = new javax.swing.JLabel();
         okButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        textArea = new javax.swing.JTextArea();
+        jLabel3 = new javax.swing.JLabel();
         errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Delete");
+        setResizable(false);
 
-        nameLabel.setText("Sending to: ");
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setText("Are you sure you want to");
+
+        nameText.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        nameText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         okButton.setText("OK");
         okButton.addActionListener(new java.awt.event.ActionListener() {
@@ -67,11 +79,10 @@ public class SingleTexter extends javax.swing.JFrame {
             }
         });
 
-        textArea.setColumns(20);
-        textArea.setRows(5);
-        jScrollPane1.setViewportView(textArea);
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel3.setText("delete");
 
-        errorLabel.setForeground(new java.awt.Color(255, 0, 51));
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -80,32 +91,35 @@ public class SingleTexter extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(errorLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(okButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton)
-                        .addGap(12, 12, 12))))
+                        .addGap(14, 14, 14))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(nameText)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(nameLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cancelButton)
+                    .addComponent(jLabel3)
+                    .addComponent(nameText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(okButton)
+                    .addComponent(cancelButton)
                     .addComponent(errorLabel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -118,45 +132,37 @@ public class SingleTexter extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-        String text = textArea.getText();
-        
-        if(text.isEmpty()){
-            errorLabel.setText("Please Insert Text");
-        }
-        else{
-            if(sendingToPerson){
-                boolean textWorked = person.text(text);
-                if(textWorked){
-                    this.dispose();
-                }
-                else{
-                    errorLabel.setText("Text failed, try again");
-                }
-            }
-            else{
-                boolean textWorked;
-                for(Person p : group.getPeople()){
-                    textWorked = p.text(text);
-                    if(! textWorked){
-                        errorLabel.setText("Fail: " + p.getFullName());
-                        return;
-                    }
-                }
+        if(isDeletingGroup){
+            //Delete the group in the xml file
+            boolean worked = XMLManager.deleteGroup(group);
+            if(worked){
                 this.dispose();
             }
-            
+            else{
+                errorLabel.setText("Error");
+            }
+        }
+        else{
+            //Delete the person in the xml file
+            boolean worked = XMLManager.deletePerson(person);
+            if(worked){
+                this.dispose();
+            }
+            else{
+                errorLabel.setText("Error");
+            }
         }
     }//GEN-LAST:event_okButtonActionPerformed
-    
-    private Person person;
+
     private Group group;
-    private boolean sendingToPerson;
+    private Person person;
+    private boolean isDeletingGroup;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel nameLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel nameText;
     private javax.swing.JButton okButton;
-    private javax.swing.JTextArea textArea;
     // End of variables declaration//GEN-END:variables
 }

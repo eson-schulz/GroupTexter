@@ -1,5 +1,6 @@
-package grouptexter;
+package com.eschulz.data;
 
+import com.eschulz.data.Person;
 import java.util.ArrayList;
 
 /**

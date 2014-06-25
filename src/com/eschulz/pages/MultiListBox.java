@@ -1,5 +1,7 @@
-package grouptexter;
+package com.eschulz.pages;
 
+import com.eschulz.data.Group;
+import com.eschulz.data.Person;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

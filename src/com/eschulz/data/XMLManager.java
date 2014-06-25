@@ -1,4 +1,4 @@
-package grouptexter;
+package com.eschulz.data;
 
 import java.io.File;
 import java.io.IOException;
